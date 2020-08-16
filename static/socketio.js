@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    let socket = io.connect(`http://${document.domain}:${location.port}`)
+    let socket = io.connect(`//${document.domain}:${location.port}`)
 
     socket.on('connect', function() {
         socket.send("I am connected");
