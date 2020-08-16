@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, session
 from flask_socketio import SocketIO, send
+import os
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET')
