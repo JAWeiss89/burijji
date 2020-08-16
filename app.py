@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, session
 from flask_socketio import SocketIO, send
 
 app = Flask(__name__)
-app.secret_key = 'mysecret'
+app.secret_key = os.environ.get('SECRET')
 
 socketio = SocketIO(app) # initialize socket io
 
