@@ -12,16 +12,15 @@
     <h1>Burijji <i class="far fa-comments"></i></h1>
 
     <div id="main-section">
-        <div id="messages-window">
-
-        </div>
-        <div id="input-area">
-            <form id="input-form" autocomplete="off">
-                <input type="text" id="user-message" placeholder="Type here...">
-                <button id="send-message">SEND</button>
+        <div id="greeting-window">
+            <h2>Welcome. </h2>
+            <h4>What is your name?</h4>
+            <form id="name-form"  method="POST" autocomplete="off">
+                <input type="text" name="name" id="name">
+                <button><i class="fas fa-arrow-right"></i></button>
             </form>
-
         </div>
+        
     </div>
 
     <p id="credits">Made possible by Flask-SocketIO</p>

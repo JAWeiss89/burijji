@@ -12,6 +12,14 @@ h1 {
     margin: 0 0 21px 
 }
 
+h2 {
+    margin-bottom: 75px;
+}
+
+h4 {
+    margin: 20px 0 10px;
+}
+
 #credits {
     font-size: .7em;
     position: absolute;
@@ -23,6 +31,31 @@ h1 {
 #main-section {
     width: 100%;
     margin-bottom: 65px;
+}
+
+#name-form {
+    display: flex;
+}
+
+#name-form * {
+    margin: 0;
+    padding: 0;
+    border: none;
+    height: 40px;
+}
+
+#name-form input {
+    width: 70%;
+    font-size: 1.3em;
+    font-weight: 300;
+    padding-left: 10px;
+}
+
+#name-form button {
+    width: 10%;
+    padding-top: 4px;
+    font-size: 1.7em;
+    background-color: #8bb7f9;
 }
 
 #messages-window {
@@ -54,5 +87,14 @@ input {
     border: none;
     padding: 0;
     background-color: #8bb7f9;
+}
 
+#leave-chat {
+    display: flex;
+    justify-content: center;
+}
+
+#leave-chat-form button{
+    margin-top: 60px;
+    background-color: #e8bdbd;
 }

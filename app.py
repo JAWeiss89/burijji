@@ -13,11 +13,14 @@ socketio = SocketIO(app) # initialize socket io
 @app.route("/")
 def show_landing_pg():
     """ Gets home page """
-    return render_template('landing.html')
+    if session.get('name'):
+        return redirect("/chat")
+    return render_template('index.html')
 
 @app.route("/", methods=["POST"])
 def handle_form():
     """ Get name and add to session """
+
     name = request.form.get('name')
     print(name)
     session['name'] = name
@@ -29,7 +32,16 @@ def handle_form():
 @app.route("/chat")
 def show_chat():
     """ Gets home page """
-    return render_template('index.html')
+    if not session.get('name'):
+        return redirect('/')
+    return render_template('chatroom.html')
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    """ Handle logout functionality """
+    session.pop('name')
+
+    return redirect("/")
 
 
 @socketio.on('message')
