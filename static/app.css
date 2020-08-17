@@ -1,12 +1,21 @@
 body {
     color: rgb(39, 39, 39);
-    background-color: rgb(224, 224, 224);
+    background-color: #d8cbcb;
     font-family: 'Lato', sans-serif;
-    padding: 50px;
+    padding: 30px;
 }
 
 h1 {
     font-family: 'Libre Caslon Display', serif;
+    margin: 0 0 21px 
+}
+
+#credits {
+    font-size: .7em;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    margin: 0;
 }
 
 #main-section {
@@ -15,7 +24,7 @@ h1 {
 
 #messages-window {
     padding: 10px;
-    height: 400px;
+    height: 70vh;
     background-color:#f7f7f7;
     overflow-y:auto;
 }
@@ -23,6 +32,10 @@ h1 {
 #input-form {
     display: flex;
     justify-content: center;
+}
+
+input {
+    border-radius: 0%;
 }
 
 #user-message {

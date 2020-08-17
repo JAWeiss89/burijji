@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocketIO Chat App</title>
+    <title>Burijji</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Libre+Caslon+Display&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/app.css">
 </head>
 <body>
-    <h1>Burijji</h1>
-    <h4>Supported by Socket-IO</h4>
+    <h1>Burijji <i class="far fa-comments"></i></h1>
+
     <div id="main-section">
         <div id="messages-window">
 
@@ -17,11 +18,13 @@
         <div id="input-area">
             <form id="input-form">
                 <input type="text" id="user-message" placeholder="Type here...">
-                <button type="button" id="send-message">SEND</button>
+                <button id="send-message">SEND</button>
             </form>
 
         </div>
     </div>
+
+    <p id="credits">Made possible by Flask-SocketIO</p>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
     <script src="../static/socketio.js"></script>
