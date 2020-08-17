@@ -13,9 +13,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('#messages-window').append(p);
     });
 
-    document.querySelector('#send-message').onclick = function() {
+    document.querySelector('#input-form').addEventListener('submit', function(event) {
+        event.preventDefault();
         socket.send(document.querySelector('#user-message').value);
-    }
+        document.querySelector('#user-message').value = '';
+    }) 
 
 
 })

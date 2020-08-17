@@ -1,3 +1,42 @@
-h1 {
+body {
     color: rgb(39, 39, 39);
+    background-color: rgb(224, 224, 224);
+    font-family: 'Lato', sans-serif;
+    padding: 50px;
+}
+
+h1 {
+    font-family: 'Libre Caslon Display', serif;
+}
+
+#main-section {
+    width: 100%;
+}
+
+#messages-window {
+    padding: 10px;
+    height: 400px;
+    background-color:#f7f7f7;
+    overflow-y:auto;
+}
+
+#input-form {
+    display: flex;
+    justify-content: center;
+}
+
+#user-message {
+    width: 80%;
+    height: 40px;
+    border: none;
+    padding: 0 0 0 5px;
+}
+
+#send-message {
+    width: 20%;
+    height: 40px;
+    border: none;
+    padding: 0;
+    background-color: #8bb7f9;
+
 }
