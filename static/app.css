@@ -2,14 +2,14 @@ body {
     color: rgb(39, 39, 39);
     background-color: #d8cbcb;
     font-family: 'Lato', sans-serif;
-    padding: 30px;
     height: 90vh;
+    padding-bottom: 30px;
     position: relative;
 }
 
 h1 {
     font-family: 'Libre Caslon Display', serif;
-    margin: 0 0 21px 
+    margin: 20px 0 20px 
 }
 
 h2 {
@@ -29,8 +29,9 @@ h4 {
 }
 
 #main-section {
-    width: 100%;
+    width: 93%;
     margin-bottom: 65px;
+    margin: auto;
 }
 
 #name-form {
