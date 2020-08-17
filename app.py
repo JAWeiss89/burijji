@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
 from flask_socketio import SocketIO, send
+from time import localtime, strftime
 import os
 
 app = Flask(__name__)
@@ -9,16 +10,20 @@ app.config['SECRET_KEY'] = 'aaaaa'
 socketio = SocketIO(app) # initialize socket io
 
 
+# ===================================
+# FLASK ROUTE HANDLING
+# ===================================
+
 
 @app.route("/")
-def show_landing_pg():
+def show_home_pg():
     """ Gets home page """
     if session.get('name'):
         return redirect("/chat")
     return render_template('index.html')
 
 @app.route("/", methods=["POST"])
-def handle_form():
+def handle_name_form():
     """ Get name and add to session """
 
     name = request.form.get('name')
@@ -31,7 +36,7 @@ def handle_form():
 
 @app.route("/chat")
 def show_chat():
-    """ Gets home page """
+    """ Gets chatroom page """
     if not session.get('name'):
         return redirect('/')
     return render_template('chatroom.html')
@@ -44,14 +49,23 @@ def logout():
     return redirect("/")
 
 
+# ===================================
+# SOCKETIO HANDLING
+# ===================================
+
+
 @socketio.on('message')
 def message(data):
 
-    # print(f"\n\n{data}\n\n")
-    edited = f"{session['name']}: {data}"
+    # edited = f"{session['name']}: {data}"
+    user = session['name']
+    time = strftime("%b-%d %I:%M%p", localtime())
     
-    send(edited, broadcast=True) #This will send the message to connected clients
+    send({'data':data, 'user': user, 'time':time}, broadcast=True) 
     
+
+
+
 
 if __name__ == '__main__':
     app.run()

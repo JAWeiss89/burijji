@@ -61,8 +61,24 @@ h4 {
 #messages-window {
     padding: 10px;
     height: 60vh;
-    background-color:#f7f7f7;
+    background-color:#ececec;
     overflow-y:auto;
+}
+
+.date-span {
+    color: #929292;
+    font-size: .6em;
+}
+
+.name-span {
+    color: #556aff;
+    font-size: .8em;
+}
+.message-header {
+    margin: 0;
+}
+.user-message {
+    margin: 0 0 10px 5px;
 }
 
 #input-form {
