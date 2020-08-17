@@ -24,7 +24,7 @@ h1 {
 
 #messages-window {
     padding: 10px;
-    height: 70vh;
+    height: 60vh;
     background-color:#f7f7f7;
     overflow-y:auto;
 }
