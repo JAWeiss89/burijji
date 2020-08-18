@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, session
-from flask_socketio import SocketIO, send
+from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from time import localtime, strftime
 import os
 
@@ -57,12 +57,28 @@ def logout():
 @socketio.on('message')
 def message(data):
 
-    # edited = f"{session['name']}: {data}"
     user = session['name']
     time = strftime("%b-%d %I:%M%p", localtime())
     
-    send({'data':data, 'user': user, 'time':time}, broadcast=True) 
+    send({'msg': data['msg'], 'user': user, 'time':time}, room=data['room'], broadcast=True) 
     
+
+@socketio.on('join')
+def join(data):
+
+    user = session['name']
+
+    join_room(data['room'])
+    send({'msg': f"{user} has joined the room {data['room']}"}, room=data['room'])
+
+
+@socketio.on('leave')
+def leave(data):
+
+    user = session['name']
+
+    leave_room(data['room'])
+    send({'msg': f"{user} has left the room."}, room=data['room'])
 
 
 

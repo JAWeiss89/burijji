@@ -7,6 +7,14 @@ body {
     position: relative;
 }
 
+.navbar {
+    margin: 10px;
+}
+
+.navbar span {
+    margin: 0 5px 0 5px;
+}
+
 h1 {
     font-family: 'Libre Caslon Display', serif;
     margin: 20px 0 20px 
@@ -64,6 +72,11 @@ h4 {
     height: 60vh;
     background-color:#ececec;
     overflow-y:auto;
+}
+
+.gen-message {
+    color: #929292;
+    font-size: .8em;
 }
 
 .date-span {
