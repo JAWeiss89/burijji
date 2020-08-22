@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Welcome, {{ user.first_name }}</h2>
+
+<h3>Burijji seeks to bridge conversations and break language barriers.</h3>
+
+<div class="new-chatroom">
+    <button id="new-meeting">New Meeting</button>
+    <form id="join-meeting-form">
+        <input id="chatroom-code-input" name="chatroom-code" type="text" placeholder="Enter chatroom code">
+        <button>Join</button>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+{% endblock %}

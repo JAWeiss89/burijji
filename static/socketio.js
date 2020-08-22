@@ -1,14 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
     let socket = io.connect(`//${document.domain}:${location.port}`)
-    let currentRoom = "usa";
-    join(currentRoom)
+    let currentRoom = "lounge";
+
+    joinNewRoom(currentRoom);
+
+     // WHAT TO DO WHEN CONNECTION IS ESTABLISHED
 
     socket.on('connect', function() {
-        // socket.send({'msg': 'I am connected!'});
         console.log('socketIO connection established')
     })
 
-    // What to do when message received from server
+    // WHAT TO DO WITH MESSAGE RECEIVED FROM SERVER
+
     socket.on("message", function(data) {
         console.log(data)
 
@@ -20,49 +23,104 @@ document.addEventListener('DOMContentLoaded', function() {
 
     });
 
-    // event listeners
+    // SENDING A MESSAGE WHEN SUBMITTING MESSAGE FORM
 
     document.querySelector('#input-form').addEventListener('submit', function(event) {
         event.preventDefault();
-        socket.send({'msg': document.querySelector('#user-message').value,
-                     'room': currentRoom});
-        document.querySelector('#user-message').value = '';
+        if (document.querySelector('#user-message').value != "") {
+            socket.send({'msg': document.querySelector('#user-message').value,
+            'room': currentRoom});
+            document.querySelector('#user-message').value = '';
+        }
+
     }) 
 
 
-    // room event listeners
+    // JOINING A NEW ROOM BY CLICKING ONE ONE FROM ROOM LIST
 
-    document.querySelectorAll('.room').forEach(function(chatroom) {
-        chatroom.addEventListener('click', function(event) {
-            let newRoom = chatroom.innerHTML
+    let roomsList = document.querySelector('#joined-rooms');
+    roomsList.addEventListener("click", function(event) {
 
+        let newRoom = event.target.attributes.meetingcode.value;
             if (newRoom != currentRoom) {
-                console.log(`Leaving chatroom ${currentRoom}`);
-                leave(currentRoom);
-                console.log(`Entering chatroom ${newRoom}`);
-                join(newRoom);
-                currentRoom = newRoom;
+                joinNewRoom(newRoom);
             }
-        })
+    });
+
+
+    // PROCESS FORM TO CREATE OR JOIN A NEW ROOM
+    
+
+    let newMeetingBtn = document.querySelector("#new-meeting");
+    let chatroomCodeField = document.querySelector("#chatroom-code-input")
+    
+    newMeetingBtn.addEventListener('click', function() {
+        chatroomCodeField.value=getRandomChatCode();
+    })
+    
+    
+    let joinForm = document.querySelector("#join-meeting-form");
+    
+    joinForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        // Add meeting to my rooms list
+        let li = document.createElement('li');
+        li.setAttribute('meetingcode', chatroomCodeField.value);
+        li.setAttribute('class', 'room');
+        li.innerText= chatroomCodeField.value // This will be the name of the room. for now name is unique code
+        
+        let joinedRooms = document.querySelector("#joined-rooms");
+        joinedRooms.appendChild(li);
+
+        // actually join room & clear chat screen
+        
+        joinNewRoom(chatroomCodeField.value);
+        chatroomCodeField.value="";
     })
 
 
-    // leave room
+    // LEAVE ROOM
+
     function leave(room) {
-        console.log(`leave room function has been called with variable ${room}`)
         socket.emit('leave', {'room': room})
     }
 
-    // join room
-    function join(room) {
-        console.log(`join room function has been called with variable ${room}`)
-        document.querySelector('#messages-window').innerHTML="";
-        socket.emit('join', {'room': room})
+    // JOIN ROOM
 
+    function join(room, roomName) {
+        // 2nd arg is optional 
+
+        if (roomName) {
+            socket.emit('join', {'room': room, 'roomname': roomName})
+        } else {
+            socket.emit('join', {'room': room})
+        }
     }
 
 
-    // helper functions 
+    // HANDLES LEAVING ROOM, CLEARING SCREEN, GETTING OLD MESSAGES, JOINING ROOM
+    async function joinNewRoom(roomcode) {
+        leave(currentRoom);
+        clearMessages();
+        
+        // Now get old messages 
+        let response = await axios.get(`http://127.0.0.1:5000/chatroom/${roomcode}/messages`)
+        let messages = response.data;
+
+        if (!messages.errors) {
+            for (let message of messages) {
+                post_user_msg(message);
+            }           
+        }
+
+        join(roomcode);
+        currentRoom = roomcode;
+    }
+
+    // ==========================================
+    //  HELPER FUNCTIONS
+    // ==========================================
 
     function post_user_msg(data) {
         const p1 = document.createElement('p');
@@ -89,6 +147,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('#messages-window').append(p);
     }
 
+    function clearMessages() {
+        document.querySelector('#messages-window').innerHTML="";
+    }
 
 
 })

@@ -1,22 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Burijji</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Libre+Caslon+Display&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
-    <link rel="stylesheet" href="../static/app.css">
-</head>
-<body>
-    <h1>Burijji <i class="far fa-comments"></i></h1>
+{% extends 'base.html' %}
 
-    <div id="main-section">
-        <div class="navbar">chatrooms:
-            <span id="room-usa" class="room">usa</span>
-            <span id="room-mexico" class="room">mexico</span>
-            <span id="room-canada" class="room">canada</span>
-            <span id="room-japan" class="room">japan</span>
+{% block content %}
+
+        <div class="my-rooms">
+            <p>Conversations:</p>
+            <ul id="joined-rooms" >
+                <li meetingcode="lounge" class="room">Lounge</li>
+                <li meetingcode="politics" class="room">Politics</li>
+                <li meetingcode="sports" class="room">Sports</li>
+                <li meetingcode="food" class="room">Food</li>
+
+                {% for room in user.chatrooms %}
+                <li meetingcode="{{room.roomcode}}">{{room.name}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+
+        <div class="new-chatroom">
+            <p>Create new meeting:</p>
+            <button id="new-meeting">New Meeting</button>
+            <p>Or join existing one:</p>
+            <form id="join-meeting-form">
+                <label for="chatroom-code-input">Meeting Code:</label>
+                <input id="chatroom-code-input" name="chatroom-code" type="text" placeholder="Enter chatroom code">
+                <button>Join</button>
+            </form>
         </div>
 
         <div id="messages-window">
@@ -34,14 +43,7 @@
                 <button><i class="fas fa-door-open"></i> <i class="fas fa-walking"></i> EXIT</button>
             </form>
         </div>
-    </div>
 
-
-
-    <p id="credits">Made possible by Flask-SocketIO</p>
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
-    <script src="../static/socketio.js"></script>
-    <script src="../static/app.js"></script>
-</body>
-</html>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="../static/socketio.js"></script>
+{% endblock %}
