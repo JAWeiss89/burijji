@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     let socket = io.connect(`//${document.domain}:${location.port}`)
     let currentRoom = "lounge";
+    let preferredLanguage = document.querySelector(".my-language").innerHTML
+
 
     joinNewRoom(currentRoom);
 
@@ -14,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     socket.on("message", function(data) {
         console.log(data)
-
+        
         if (data.user) {
             post_user_msg(data)
         } else {
@@ -123,6 +125,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
 
     function post_user_msg(data) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add(`${data.language}`)
+        if (data.language != preferredLanguage) {
+            messageDiv.classList.add("hidden");
+        }
         const p1 = document.createElement('p');
         const p2 = document.createElement('p');
         const nameSpan = document.createElement('span');
@@ -136,8 +143,11 @@ document.addEventListener('DOMContentLoaded', function() {
         p2.innerHTML = `${data.msg}`;
         p1.prepend(dateSpan);
         p1.prepend(nameSpan);
-        document.querySelector('#messages-window').append(p1);
-        document.querySelector('#messages-window').append(p2);
+        messageDiv.append(p1);
+        messageDiv.append(p2);
+
+        document.querySelector('#messages-window').append(messageDiv);
+
     }
 
     function post_gen_msg(data) {

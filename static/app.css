@@ -128,3 +128,7 @@ input {
     margin-top: 60px;
     background-color: #e8bdbd;
 }
+
+.hidden {
+    display: none;
+}

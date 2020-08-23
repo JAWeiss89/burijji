@@ -143,6 +143,10 @@ class Message(db.Model):
     timestamp = db.Column(db.String(20),
                    nullable=False,
                    default=datetime.utcnow())
+
+    is_translated = db.Column(db.Boolean,
+                    nullable=False,
+                    default=False)
     
     chatroom = db.relationship("Chatroom") #Allows SQLAlchemy to 'navigate' the connection
 

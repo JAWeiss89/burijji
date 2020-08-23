@@ -127,24 +127,64 @@ def get_old_messages(roomcode) :
 @socketio.on('message')
 def message(data):
 
-    # For real-time messaging
+    # Data that passes through here is coming from client-side
+    
     user = User.query.get(session["user_id"])
     username = user.username
+    orig_language = user.preferred_language
     time = strftime("%b-%d %I:%M%p", localtime())
 
     
+    # FOR REAL TIME MESSAGING
     
-    send({'msg': data['msg'], 'user': username, 'time':time}, room=data['room'], broadcast=True) 
+    # Send received message to all connected users
+    send({'msg': data['msg'], 'user': username, 'time':time, 'language': orig_language}, room=data['room'], broadcast=True) 
     
-    # For posting to DB
-    # need user_id(from session), chatroom_id(use query), language_id(use query), timestampt(use above), content(use data['message'])
+    # Now translate message into other languages and also send to all connected users
+    if orig_language != 'spanish' :
+        #translate
+        msg_es = "Buenos Dias" #Replace this with trasnlation of data['msg']
+        send({'msg': msg_es, 'user': username, 'time':time, 'language': 'spanish'}, room=data['room'], broadcast=True) 
+
+    if orig_language != 'english' :
+        #translate
+        msg_en = "Good Day" #Replace this with trasnlation of data['msg']
+        send({'msg': msg_en, 'user': username, 'time':time, 'language': 'english'}, room=data['room'], broadcast=True) 
+
+    if orig_language != 'portuguese' :
+        #translate
+        msg_po = "Bom Dia" #Replace this with trasnlation of data['msg']
+        send({'msg': msg_po, 'user': username, 'time':time, 'language': 'portuguese'}, room=data['room'], broadcast=True) 
+
+
+    # FOR POSTING TO DATABASE
+
+    # Post received message to database
     chatroom = Chatroom.query.filter_by(roomcode=data['room']).first() #Change search to roomcode since that will be the unique identiifer
     language = Language.query.filter_by(name=user.preferred_language).first()
 
     new_message = Message(user_id=session["user_id"], chatroom_id=chatroom.id, language_id=language.id, timestamp=time, content=data['msg'])
-
     db.session.add(new_message)
     db.session.commit()
+
+    # send translated messages to database
+    
+    if orig_language != 'spanish' :
+        new_message_es = Message(user_id=session["user_id"], chatroom_id=chatroom.id, language_id=2, timestamp=time, content=msg_es, is_translated=True)
+        db.session.add(new_message_es)
+        db.session.commit()
+
+    if orig_language != 'english' :
+        new_message_en = Message(user_id=session["user_id"], chatroom_id=chatroom.id, language_id=1, timestamp=time, content=msg_en, is_translated=True)
+        db.session.add(new_message_en)
+        db.session.commit()
+
+    if orig_language != 'portuguese' :
+        new_message_po = Message(user_id=session["user_id"], chatroom_id=chatroom.id, language_id=3, timestamp=time, content=msg_po, is_translated=True)
+        db.session.add(new_message_po)
+        db.session.commit()
+
+
 
 @socketio.on('join')
 def join(data):
@@ -159,7 +199,8 @@ def join(data):
     chatroom = Chatroom.query.filter_by(roomcode=data['room']).first() #Change search to roomcode since that will be the unique identiifer
 
     if not chatroom :
-        chatroom = Chatroom(roomcode = data['room'], name=data['roomname'])
+  
+        chatroom = Chatroom(roomcode = data['room'], name="FAKE NAME") # THIS IS BREAKING BECAUSE INCOMING DOESNT HAVE CHATROOM NAME
 
         db.session.add(chatroom)
         db.session.commit()
@@ -192,8 +233,11 @@ def leave(data):
 
 def serialize_message_objs(messages):
     msg_list=[]
+    languages = {1:'english', 2:'spanish', 3:'portuguese'}
+
+
     for message in messages:
-        msgObj= {'msg': message.content, 'time': message.timestamp, 'user': message.user.username}
+        msgObj= {'msg': message.content, 'time': message.timestamp, 'user': message.user.username, 'language': languages[message.language_id]}
         msg_list.append(msgObj)
 
     return msg_list
