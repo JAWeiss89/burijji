@@ -1,6 +1,6 @@
 body {
     color: rgb(39, 39, 39);
-    background-color: #d8cbcb;
+    background-color: #dcdcdc;
     font-family: 'Lato', sans-serif;
     height: 90vh;
     padding-bottom: 30px;
@@ -16,8 +16,17 @@ body {
 }
 
 h1 {
-    font-family: 'Libre Caslon Display', serif;
-    margin: 20px 0 20px 
+    margin: 20px 0 20px;
+    font-weight: 200;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+p {
+    margin: 10px 0 10px;
 }
 
 h2 {
@@ -38,7 +47,8 @@ h4 {
 
 #main-section {
     width: 93%;
-    margin-bottom: 65px;
+    height: 85vh;
+    display: flex;
     margin: auto;
 }
 
@@ -67,11 +77,19 @@ h4 {
     background-color: #8bb7f9;
 }
 
+#messenger {
+    height: 100%;
+}
+
 #messages-window {
     padding: 10px;
-    height: 60vh;
+    height: 90%;
     background-color:#ececec;
     overflow-y:auto;
+}
+
+#input-area {
+    height: 10%;
 }
 
 .gen-message {
@@ -98,6 +116,7 @@ h4 {
 #input-form {
     display: flex;
     justify-content: center;
+    height: 100%;
 }
 
 input {
@@ -106,14 +125,14 @@ input {
 
 #user-message {
     width: 80%;
-    height: 40px;
+    height: 100%;
     border: none;
     padding: 0 0 0 5px;
 }
 
 #send-message {
     width: 20%;
-    height: 40px;
+    height: 100%;
     border: none;
     padding: 0;
     background-color: #8bb7f9;
@@ -125,10 +144,96 @@ input {
 }
 
 #leave-chat-form button{
-    margin-top: 60px;
+    margin-top: 10px;
     background-color: #e8bdbd;
 }
 
 .hidden {
     display: none;
+}
+
+/* ===========================
+
+    MY MEETINGS STYLING 
+
+=========================== */
+#my-rooms {
+    border: 1px solid black;
+    padding: 10px;
+    width: 95%;
+    height: 70%
+}
+
+
+
+
+/* ===========================
+
+    NEW MEETING STYLING 
+
+=========================== */
+
+
+.new-chatroom {
+    border: 1px solid black;
+    padding: 10px;
+    width: 95%;
+    height: 30%;
+}
+
+.new-chatroom button {
+    width: 100px;
+    height: 40px;
+    background-color: #32c09d;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+#start-over-btn {
+    text-align: center;
+    background-color: rgb(255, 249, 188);
+    border-radius: 100%;
+    width: 25px;
+    height: 25px;
+}
+
+/* ===========================
+
+    ABOUT USER SECTION
+
+=========================== */
+
+#about-user {
+    border: 1px solid black;
+    padding: 10px;
+    width: 95%;
+    height: 30%;
+}
+
+/* ===========================
+
+    ABOUT MEETING SECTION
+
+=========================== */
+#about-meeting {
+    border: 1px solid black;
+    padding: 10px;
+    width: 95%;
+    height: 70%;
+}
+
+#left {
+    width: 18%;
+    height: 100%;
+}
+
+#middle {
+    width: 60%;
+    height: 100%;
+}
+
+#right {
+    width: 18%;
+    height: 100%;
 }

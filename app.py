@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, session, flash, jsonify
 from models import connect_db, db, User, Language, Chatroom, Membership, Message
 from forms import RegisterForm, LoginForm, ChatroomForm
+from translate import translate
+
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from time import localtime, strftime
 import os
@@ -29,7 +31,7 @@ def show_home_pg():
 
         user = User.query.get(session["user_id"])
 
-        return render_template('home.html', user=user)
+        return redirect("/chat")
 
     return render_template('index.html')
 
@@ -94,7 +96,22 @@ def show_chat():
 
     user = User.query.get(session['user_id'])
 
-    return render_template('chatroom.html', user=user)
+    return render_template('chatroom2.html', user=user)
+
+
+
+@app.route("/language", methods=["POST"])
+def change_user_language() :
+    user_id = session["user_id"]
+    user = User.query.get(user_id)
+
+    new_language = request.form["language"]
+    user.preferred_language = new_language
+
+    db.session.add(user)
+    db.session.commit()
+
+    return redirect("/chat")
 
 
 @app.route("/logout", methods=["POST"])
@@ -105,19 +122,42 @@ def logout():
     return redirect("/")
 
 
+
+
 # ===================================
 # AJAX ROUTES
 # ===================================
 
-@app.route("/chatroom/<roomcode>/messages")
-def get_old_messages(roomcode) :
+@app.route("/chatroom/<roomcode>/info")
+def get_meeting_info(roomcode) :
 
-    chatroom = Chatroom.query.filter_by(roomcode=roomcode).first()
-    if chatroom :
-        messages = serialize_message_objs(chatroom.messages)
-        return jsonify(messages)
+    meeting = Chatroom.query.filter_by(roomcode=roomcode).first()
+    if meeting :
+        messages = serialize_message_objs(meeting.messages)
+        users = serialize_user_objs(meeting.users)
+        info = {"name": meeting.name, "roomcode": meeting.roomcode}
+        return jsonify(info=info, messages=messages, users=users)
     else :
-        return jsonify(errors="No Messages Yet")
+        return jsonify(errors="Meeting not found")
+
+
+@app.route("/chatroom/<roomcode>/unsubscribe")
+def unsubscribe_from_meeting(roomcode) :
+
+    meeting = Chatroom.query.filter_by(roomcode=roomcode).first()
+    if meeting :
+        user_id = session["user_id"]
+        meeting_id = meeting.id
+
+        membership = Membership.query.filter_by(user_id = user_id, chatroom_id = meeting_id).first()
+        
+        db.session.delete(membership)
+        db.session.commit()
+
+        return jsonify(msg= "Unsubscribed Succesfully")
+
+    else :
+        return jsonify(msg= "Error: could not find meeting to unsubscribe")
 
 # ===================================
 # SOCKET-IO HANDLING
@@ -131,6 +171,7 @@ def message(data):
     
     user = User.query.get(session["user_id"])
     username = user.username
+    orig_message = data["msg"]
     orig_language = user.preferred_language
     time = strftime("%b-%d %I:%M%p", localtime())
 
@@ -138,23 +179,23 @@ def message(data):
     # FOR REAL TIME MESSAGING
     
     # Send received message to all connected users
-    send({'msg': data['msg'], 'user': username, 'time':time, 'language': orig_language}, room=data['room'], broadcast=True) 
-    
+    send({'msg': orig_message, 'user': username, 'time':time, 'language': orig_language}, room=data['room'], broadcast=True) 
+
     # Now translate message into other languages and also send to all connected users
     if orig_language != 'spanish' :
         #translate
-        msg_es = "Buenos Dias" #Replace this with trasnlation of data['msg']
+        msg_es = translate(orig_message, 'es')
         send({'msg': msg_es, 'user': username, 'time':time, 'language': 'spanish'}, room=data['room'], broadcast=True) 
 
     if orig_language != 'english' :
         #translate
-        msg_en = "Good Day" #Replace this with trasnlation of data['msg']
+        msg_en = translate(orig_message, 'en')
         send({'msg': msg_en, 'user': username, 'time':time, 'language': 'english'}, room=data['room'], broadcast=True) 
 
     if orig_language != 'portuguese' :
         #translate
-        msg_po = "Bom Dia" #Replace this with trasnlation of data['msg']
-        send({'msg': msg_po, 'user': username, 'time':time, 'language': 'portuguese'}, room=data['room'], broadcast=True) 
+        msg_pt = translate(orig_message, 'pt')
+        send({'msg': msg_pt, 'user': username, 'time':time, 'language': 'portuguese'}, room=data['room'], broadcast=True) 
 
 
     # FOR POSTING TO DATABASE
@@ -167,7 +208,7 @@ def message(data):
     db.session.add(new_message)
     db.session.commit()
 
-    # send translated messages to database
+    # Send translated messages to database
     
     if orig_language != 'spanish' :
         new_message_es = Message(user_id=session["user_id"], chatroom_id=chatroom.id, language_id=2, timestamp=time, content=msg_es, is_translated=True)
@@ -180,10 +221,40 @@ def message(data):
         db.session.commit()
 
     if orig_language != 'portuguese' :
-        new_message_po = Message(user_id=session["user_id"], chatroom_id=chatroom.id, language_id=3, timestamp=time, content=msg_po, is_translated=True)
-        db.session.add(new_message_po)
+        new_message_pt = Message(user_id=session["user_id"], chatroom_id=chatroom.id, language_id=3, timestamp=time, content=msg_pt, is_translated=True)
+        db.session.add(new_message_pt)
         db.session.commit()
 
+
+@socketio.on('new_meeting_request')
+def new_meeting_req(data):
+    # Check if this is a request to create a new meeting or join one already in db
+    current_room = data['currentroom']
+    user_id = session["user_id"]
+    if data.get('roomname'):
+        roomname = data['roomname']
+        roomcode = data['roomcode']
+
+        # Request is to create a new meeting
+        meeting = Chatroom(roomcode=roomcode, name=roomname)
+
+        db.session.add(meeting)
+        db.session.commit()
+
+        send({'msg': 'Meeting created', 'join_request': 'success', 'roomcode': roomcode, 'roomname': roomname, 'user_id': user_id}, room=current_room)
+
+    else :
+        roomcode = data['roomcode']
+        chatroom = Chatroom.query.filter_by(roomcode=roomcode).first()
+        
+
+        if not chatroom:
+            send({'msg': 'Could not find meeting.', 'join_request': 'failed'}, room=current_room)
+        else :
+            roomname = chatroom.name
+            send({'msg': 'Request granted.', 'join_request': 'success', 'roomcode': roomcode, 'roomname': roomname, 'user_id': user_id}, room=current_room)
+
+        
 
 
 @socketio.on('join')
@@ -191,24 +262,28 @@ def join(data):
     # For socket-io joining
     user = User.query.get(session["user_id"])
     username = user.username
+    room = data['room']
+    
+    found_room = Chatroom.query.filter_by(roomcode=room).first()
+    roomname = found_room.name
 
-    join_room(data['room'])
-    send({'msg': f"{username} has joined the room {data['room']}"}, room=data['room'])
+    join_room(room)
+    send({'msg': f"{username} has joined the meeting {roomname}"}, room=room)
 
-    # Does chatroom exist in db? If not, create it. 
-    chatroom = Chatroom.query.filter_by(roomcode=data['room']).first() #Change search to roomcode since that will be the unique identiifer
+                # Does chatroom exist in db? If not, create it. 
+                # chatroom = Chatroom.query.filter_by(roomcode=data['room']).first() #Change search to roomcode since that will be the unique identiifer
 
-    if not chatroom :
-  
-        chatroom = Chatroom(roomcode = data['room'], name="FAKE NAME") # THIS IS BREAKING BECAUSE INCOMING DOESNT HAVE CHATROOM NAME
+                # if not chatroom :
+            
+                #     chatroom = Chatroom(roomcode = data['room'], name="FAKE NAME") # THIS IS BREAKING BECAUSE INCOMING DOESNT HAVE CHATROOM NAME
 
-        db.session.add(chatroom)
-        db.session.commit()
+                #     db.session.add(chatroom)
+                #     db.session.commit()
 
     # Make user a member of this chatroom if not already member
     
-    if chatroom not in user.chatrooms and chatroom.id not in [1,2,3,4]:
-        new_membership = Membership(user_id=user.id, chatroom_id=chatroom.id, is_admin=True)
+    if found_room not in user.chatrooms and found_room.id not in [1,2,3,4]:
+        new_membership = Membership(user_id=user.id, chatroom_id=found_room.id, is_admin=True)
 
         db.session.add(new_membership)
         db.session.commit()
@@ -221,9 +296,10 @@ def leave(data):
 
     user = User.query.get(session["user_id"])
     username = user.username
+    room = data['room']
 
-    leave_room(data['room'])
-    send({'msg': f"{username} has left the room."}, room=data['room'])
+    leave_room(room)
+    send({'msg': f"{username} has left the meeting."}, room=room)
 
 
 
@@ -242,6 +318,14 @@ def serialize_message_objs(messages):
 
     return msg_list
 
+def serialize_user_objs(users):
+    user_list=[]
+
+    for user in users:
+        user_obj= {'username': user.username}
+        user_list.append(user_obj)
+
+    return user_list
 
 if __name__ == '__main__':
     app.run()
