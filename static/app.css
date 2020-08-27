@@ -1,22 +1,23 @@
+/* ===========================
+
+    GLOBAL STYLING 
+
+=========================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     color: rgb(39, 39, 39);
-    background-color: #dcdcdc;
+    background-color: #c5c5c5;
     font-family: 'Lato', sans-serif;
-    height: 90vh;
-    padding-bottom: 30px;
     position: relative;
 }
 
-.navbar {
-    margin: 10px;
-}
-
-.navbar span {
-    margin: 0 5px 0 5px;
-}
-
 h1 {
-    margin: 20px 0 20px;
+    margin: 0;
     font-weight: 200;
 }
 
@@ -37,45 +38,193 @@ h4 {
     margin: 20px 0 10px;
 }
 
-#credits {
-    font-size: .7em;
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+ul {
     margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
 }
 
 #main-section {
-    width: 93%;
-    height: 85vh;
-    display: flex;
+    width: 95%;
     margin: auto;
 }
 
-#name-form {
+.hidden {
+    display: none;
+}
+
+section {
+    background-color: #fff;
+}
+
+/* ===========================
+
+    NAVBAR STYLING 
+
+=========================== */
+
+.navbar {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin: 0 0 20px;
+ background-color: #35578a;
+ color: #fff;
+ font-weight: 100;
+}
+
+.navbar-logo {
+    margin-left: 8px;
+}
+
+.navbar-links {
+    text-align: right;
+}
+
+.navbar-links a {
+    margin-right: 10px;
+}
+
+/* ===========================
+
+     MEETING PAGE STYLING
+
+=========================== */
+
+#meeting-room-container {
+    height: 85vh;
     display: flex;
+    justify-content: center;
 }
 
-#name-form * {
-    margin: 0;
-    padding: 0;
-    border: none;
-    height: 40px;
-}
-
-#name-form input {
-    width: 70%;
-    font-size: 1.3em;
-    font-weight: 300;
+.section-title {
+    font-size: 1.2em;
     padding-left: 10px;
 }
 
-#name-form button {
-    width: 10%;
-    padding-top: 4px;
-    font-size: 1.7em;
+#left {
+    width: 20%;
+    height: 100%;
+}
+
+#middle {
+    width: 60%;
+    height: 100%;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+}
+
+#right {
+    width: 20%;
+    height: 100%;
+}
+
+/* ===========================
+
+    MY-MEETINGS BOX STYLING 
+
+=========================== */
+#my-rooms {
+    border: 1px solid black;
+    height: 70%
+}
+
+#my-rooms li {
+    padding-left: 10px;
+    margin: 3px 0 3px;
+    font-weight: 100;
+}
+
+#my-rooms i {
+    margin-left: 3px;
+}
+
+.selected {
     background-color: #8bb7f9;
 }
+
+/* ===========================
+
+    NEW-MEETING BOX STYLING 
+
+=========================== */
+
+#new-chatroom {
+    border: 1px solid black;
+    border-top: 0;
+    padding: 0 10px 10px 10px;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#new-chatroom p {
+    margin: 5px 0 5px;
+    font-weight: 100;
+}
+
+.current-window {
+    display: flex;
+    flex-direction: column;
+}
+
+.new-chatroom-button {
+    margin: 10px;
+    width: 100px;
+    height: 40px;
+    background-color: #29a2af;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+#final-create-new-btn {
+    width: 75px;
+    height: 30px;
+    margin-left: 0;
+}
+
+#final-join-exist-btn {
+    width: 75px;
+    height: 30px;
+    margin-left: 0;
+}
+
+#create-or-join-window {
+    justify-content: center;
+    align-items: center;
+}
+
+#new-chatroom input {
+    width: 100%;
+    height: 30px;
+    border: 1px solid;
+    padding-left: 3px;
+}
+
+#start-over-btn {
+    text-align: center;
+    background-color: rgb(232, 189, 189);
+    border-radius: 100%;
+    border: 0;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+/* ===========================
+
+    MESSENGER STYLING 
+
+=========================== */
 
 #messenger {
     height: 100%;
@@ -83,13 +232,13 @@ h4 {
 
 #messages-window {
     padding: 10px;
-    height: 90%;
+    height: 93%;
     background-color:#ececec;
     overflow-y:auto;
 }
 
 #input-area {
-    height: 10%;
+    height: 7%;
 }
 
 .gen-message {
@@ -106,9 +255,11 @@ h4 {
     color: #556aff;
     font-size: .8em;
 }
+
 .message-header {
     margin: 0;
 }
+
 .user-message {
     margin: 0 0 10px 5px;
 }
@@ -136,104 +287,123 @@ input {
     border: none;
     padding: 0;
     background-color: #8bb7f9;
-}
-
-#leave-chat {
-    display: flex;
-    justify-content: center;
-}
-
-#leave-chat-form button{
-    margin-top: 10px;
-    background-color: #e8bdbd;
-}
-
-.hidden {
-    display: none;
+    font-size: 1.4em;
 }
 
 /* ===========================
 
-    MY MEETINGS STYLING 
-
-=========================== */
-#my-rooms {
-    border: 1px solid black;
-    padding: 10px;
-    width: 95%;
-    height: 70%
-}
-
-
-
-
-/* ===========================
-
-    NEW MEETING STYLING 
-
-=========================== */
-
-
-.new-chatroom {
-    border: 1px solid black;
-    padding: 10px;
-    width: 95%;
-    height: 30%;
-}
-
-.new-chatroom button {
-    width: 100px;
-    height: 40px;
-    background-color: #32c09d;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-}
-
-#start-over-btn {
-    text-align: center;
-    background-color: rgb(255, 249, 188);
-    border-radius: 100%;
-    width: 25px;
-    height: 25px;
-}
-
-/* ===========================
-
-    ABOUT USER SECTION
+    ABOUT-USER BOX STYLING 
 
 =========================== */
 
 #about-user {
     border: 1px solid black;
-    padding: 10px;
-    width: 95%;
     height: 30%;
+    position: relative;
+}
+
+#about-user p {
+    padding-left: 10px;
+}
+
+/* #leave-chat {
+    display: flex;
+    justify-content: center;
+} */
+
+/* #leave-chat-form button{
+    margin-top: 10px;
+    background-color: #e8bdbd;
+} */
+
+#about-user form {
+    margin-top: 30px;
+    width: 100%;
+}
+
+#about-user select {
+    width: 80%;
+    height: 30px;
+    margin-top: 15px;
+}
+
+#about-user form button {
+    width: 17%;
+    border: none;
+    height: 30px;
+    background-color: #8bb7f9;
+}
+
+.settings {
+    position: absolute;
+    margin: 0;
+    bottom: 10px;
+    right: 10px;
+}
+
+.flag {
+    text-align: center;
+    font-size: 2em;
+    padding-right: 10px;
+}
+
+#change-language {
+    padding: 5px;
+}
+
+.button-div {
+    display: flex;
+    justify-content: center;
+}
+
+#go-back {
+    text-align: center;
+    background-color: rgb(232, 189, 189);
+    border-radius: 100%;
+    border: 0;
+    width: 25px;
+    height: 25px;
+    margin: 20px auto;
 }
 
 /* ===========================
 
-    ABOUT MEETING SECTION
+    ABOUT-MEETING STYLING 
 
 =========================== */
 #about-meeting {
     border: 1px solid black;
-    padding: 10px;
-    width: 95%;
     height: 70%;
 }
 
-#left {
-    width: 18%;
-    height: 100%;
+#about-meeting * {
+    font-size: .9em;
 }
 
-#middle {
-    width: 60%;
-    height: 100%;
+#about-meeting p {
+    padding-left: 10px;
 }
 
-#right {
-    width: 18%;
-    height: 100%;
+#this-meeting-name {
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+#meeting-members li {
+    margin-left: 20px;
+}
+
+
+
+#unsubscribe {
+    margin: 20px auto;
+    padding: 0;
+    height: 30px;
+    width: 100px;
+    border: none;
+    border-radius: 5px;
+}
+
+#unsubscribe:hover {
+    background-color: #e8bdbd;
 }

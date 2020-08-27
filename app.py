@@ -114,7 +114,7 @@ def change_user_language() :
     return redirect("/chat")
 
 
-@app.route("/logout", methods=["POST"])
+@app.route("/logout")
 def logout():
     """ Handle logout functionality """
     session.pop('user_id')

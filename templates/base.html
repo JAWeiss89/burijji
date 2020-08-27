@@ -9,7 +9,21 @@
     <link rel="stylesheet" href="../static/app.css">
 </head>
 <body>
-    <a href="/"><h1>ne-xo <i class="far fa-comments"></i></h1></a>
+
+    <div class="navbar">
+        <div class="navbar-logo">
+            <a href="/"><h1>ne-xo <i class="far fa-comments"></i></h1></a>
+        </div>
+        <div class="navbar-links">
+            {% if session["user_id"] %}
+            <a href="/logout">Logout @{{user.username}}</a>
+            {% else %}
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+            {% endif %}
+        </div>
+
+    </div>
 
     <div id="main-section">
         <!-- Flash Messages -->
@@ -28,8 +42,6 @@
         {% endblock %}
 
     </div>
-
-    <!-- <p id="credits">Made possible by Flask-SocketIO</p> -->
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
     <script src="../static/app.js"></script>

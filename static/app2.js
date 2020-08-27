@@ -147,6 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
     newMeetingBtn.addEventListener('click', () => {
         newMeetingWindow.classList.add('hidden');
         createOrJoinWindow.classList.remove('hidden');
+        createOrJoinWindow.classList.add("current-window");
         startOverBtn.classList.remove("hidden");
     })
 
@@ -154,6 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     createNewBtn.addEventListener('click', () => {
         createOrJoinWindow.classList.add("hidden");
+        createOrJoinWindow.classList.remove("current-window");
         createNewWindow.classList.remove("hidden");
         
         // Generate New Unique Code
@@ -162,6 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     joinExistBtn.addEventListener('click', () => {
         createOrJoinWindow.classList.add("hidden");
+        createOrJoinWindow.classList.remove("current-window");
         joinExistWindow.classList.remove("hidden");
     })
 
@@ -208,6 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
         startOverBtn.classList.add("hidden");
 
         newMeetingWindow.classList.remove("hidden");
+        createOrJoinWindow.classList.remove("current-window");
     }
 
     // ==================================================

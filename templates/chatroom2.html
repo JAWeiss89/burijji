@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div id="meeting-room-container">
+
+
     <section id="left">
 
         <div id="my-rooms">
-            <p>Meetings:</p>
+            <p class="section-title">Meetings <i class="fas fa-user-friends"></i></p>
             <ul id="joined-rooms" >
                 <li meetingcode="lounge" class="room">Lounge</li>
                 <li meetingcode="politics" class="room">Politics</li>
@@ -18,26 +21,27 @@
             </ul>
         </div>
 
-        <div class="new-chatroom">
+        <div id="new-chatroom">
             <div id="new-meeting-window" class="new-meeting-display">
-                <button id="new-meeting-btn">New Meeting</button>
+                <button id="new-meeting-btn" class="new-chatroom-button">New Meeting</button>
             </div>
             <div id="create-or-join-window" class="new-meeting-display  hidden">
-                <button id="create-new-btn">Create New Meeting</button>
-                <button id="join-exist-btn">Join Existing Meeting</button>
+                <button id="create-new-btn" class="new-chatroom-button">Create New Meeting</button>
+                <p>-- OR --</p>
+                <button id="join-exist-btn" class="new-chatroom-button">Join Existing Meeting</button>
             </div>
             <div id="create-new-window" class="new-meeting-display hidden">
                 <p>Create New Meeting</p>
                 <p>Code: <span id="new-meeting-code-gen">111-111-111</span></p>
                 <p>Name of meeting:</p>
-                <input id="new-meeting-name-input" type="text" placeholder="November Sales Meeting">
-                <button id="final-create-new-btn">Create!</button>
+                <input id="new-meeting-name-input" type="text" placeholder="Sales Meeting">
+                <button id="final-create-new-btn" class="new-chatroom-button">Create!</button>
             </div>
             <div id="join-exist-window" class="new-meeting-display hidden">
                 <p>Join Existing Meeting </p>
                 <p>Enter Meeting Code:</p>
                 <input id="join-meeting-code-input" type="text" placeholder="e.g.,'A1b-2c3-D4e'">
-                <button id="final-join-exist-btn">Join!</button>
+                <button id="final-join-exist-btn" class="new-chatroom-button">Join!</button>
             </div>
             <div id="create-success-window" class="new-meeting-display hidden">
                 <p>Created Meeting!</p>
@@ -65,7 +69,7 @@
             <div id="input-area">
                 <form id="input-form" autocomplete="off">
                     <input type="text" id="user-message" placeholder="Type here...">
-                    <button id="send-message">SEND</button>
+                    <button id="send-message"><i class="far fa-paper-plane"></i></button>
                 </form>
     
             </div>
@@ -77,16 +81,24 @@
 
         <div id="about-user">
             <div id="user-info" class="user-window">
-                <p>@ <span class="user-name">{{user.username}}</span></p>
-                <p>Preferred Language: <span class="my-language">{{user.preferred_language}}</span></p>
+                <p class="section-title">@ <span class="user-name">{{user.username}} </span><i class="fas fa-user"></i></p>
+                <p>Preferred Language:</p>
+                <p><span class="my-language hidden">{{user.preferred_language}}</span></p>
+                {% if user.preferred_language=="english" %}
+                <p class="flag">🇬🇧</p>
+                {% elif user.preferred_language=="spanish" %}
+                <p class="flag">🇪🇸</p>
+                {% elif user.preferred_language=="portuguese" %}
+                <p class="flag">🇵🇹</p>
+                {% endif %}
                 <p class="my-user-id hidden">{{user.id}}</p>
                 <p class="settings"><i class="fas fa-cog"></i></p>
     
-                <div id="leave-chat">
+                <!-- <div id="leave-chat">
                     <form id="leave-chat-form" method="POST" action="/logout">
                         <button><i class="fas fa-door-open"></i> <i class="fas fa-walking"></i> EXIT</button>
                     </form>
-                </div>
+                </div> -->
             </div>
             
             <div id="change-language" class="user-display hidden">
@@ -97,18 +109,19 @@
                         <option value="spanish">Español</option>
                         <option value="portuguese">Português</option>
                     </select>
-                    <button>Send</button>
+                    <button><i class="far fa-paper-plane"></i></button>
                 </form>
-
-                <button id="go-back"><i class="fas fa-arrow-left"></i></button>
+                <div class="button-div">
+                    <button id="go-back"><i class="fas fa-arrow-left"></i></button>
+                </div>
             </div>
             
     
         </div>
 
         <div id="about-meeting">
-            <p>About this Meeting: </p>
             <p id="this-meeting-name"></p>
+            
 
             <p>Meeting Members: </p>
             <ul id="meeting-members">
@@ -116,7 +129,11 @@
             </ul>
             <p>Invite Code:</p>
             <p id="invite-code"></p>
-            <button id="unsubscribe">Remove from My Meetings</button>
+
+            <div class="button-div">
+                <button id="unsubscribe"><i class="fas fa-door-open"></i> <i class="fas fa-walking"></i> EXIT</button>
+            </div>
+            
         </div>
 
     </section>
@@ -132,4 +149,6 @@
     <script src="../static/app.js"></script>
     <script src="../static/app2.js"></script>
 
-    {% endblock %}
+
+</div>
+{% endblock %}
