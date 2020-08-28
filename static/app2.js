@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentRoom = ""; // What room do we want the user to be at the beginning?
     let preferredLanguage = document.querySelector(".my-language").innerHTML;
     let currentUserID = document.querySelector(".my-user-id").innerHTML;
+    let currentUsername = document.querySelector(".user-name").innerHTML;
     console.log(preferredLanguage);
     joinNewMeeting(currentRoom);
 
@@ -95,6 +96,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         clearMessages();
 
+        // Highlight correct meeting from My Meetings list
+        let oldMeetingLi = document.getElementById(currentRoom);
+        let newMeetingLi = document.getElementById(meetingCode);
+        
+
+        if (oldMeetingLi) {
+            oldMeetingLi.classList.remove("selected");
+        }
+        newMeetingLi.classList.add("selected");
+
+        // Show meeting-info box if not lounge
+        let meetingInfoDiv = document.querySelector(".meeting-info");
+        let noMeetingInfoDiv = document.querySelector(".no-meeting-info");
+        if (meetingCode != "lounge") {
+            meetingInfoDiv.classList.remove("hidden");
+            noMeetingInfoDiv.classList.add("hidden");
+        } else {
+            meetingInfoDiv.classList.add("hidden");
+            noMeetingInfoDiv.classList.remove("hidden");
+        }
+
         // Now get old messages 
         let response = await axios.get(`http://127.0.0.1:5000/chatroom/${meetingCode}/info`)
         
@@ -107,15 +129,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let users = response.data.users;
         if (users) {
-            let meetingMembers = document.querySelector("#meeting-members").innerHTML="";
+            let meetingMembers = document.querySelector("#meeting-members")
+            meetingMembers.innerHTML="";
             for (let user of users) {
                 add_user_to_member_list(user);
             }
         }
 
         let meetingInfo = response.data.info;
+
         post_meeting_info(meetingInfo);
-    
+        
+        makeMessagesWindowScrollDown();
 
         join(meetingCode);
         currentRoom = meetingCode;
@@ -175,31 +200,34 @@ document.addEventListener('DOMContentLoaded', function() {
         let meetingName = newMeetingNameInput.value
         let meetingCode = newMeetingCodeGen.innerHTML
 
+        if (meetingName) { // This will ensure we don't create rooms with empty names
+            newMeetingRequest(meetingCode, meetingName);
+            // reset inputs
+            newMeetingNameInput.value = "";
 
-        newMeetingRequest(meetingCode, meetingName);
-
-
-        // reset inputs
-        newMeetingNameInput.value = "";
-
-        // show next window
-        createNewWindow.classList.add("hidden");
-        createSuccessWindow.classList.remove("hidden");
-        meetingCodeShare.innerHTML = meetingCode;
+            // show next window
+            createNewWindow.classList.add("hidden");
+            createSuccessWindow.classList.remove("hidden");
+            meetingCodeShare.innerHTML = meetingCode;
+        }
+        
     })
 
     finalJoinExistBtn.addEventListener('click', () => {
         // process information and send to server
         let meetingCode = joinMeetingCodeInput.value
         
-        newMeetingRequest(meetingCode)
+        if (meetingCode) {
+            newMeetingRequest(meetingCode)
 
-        // reset inputs
-        joinMeetingCodeInput.value = "";
+            // reset inputs
+            joinMeetingCodeInput.value = "";
+    
+            // show next window
+            joinExistWindow.classList.add("hidden");
+            joinSuccessWindow.classList.remove("hidden");
+        }
 
-        // show next window
-        joinExistWindow.classList.add("hidden");
-        joinSuccessWindow.classList.remove("hidden");
     })
 
     function resetNewMeetingForm() {
@@ -261,6 +289,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (userMessage.value != "") {
             sendUserMessage(userMessage.value, currentRoom);
             userMessage.value = "";
+            makeMessagesWindowScrollDown();
         }
     }) 
 
@@ -282,6 +311,11 @@ document.addEventListener('DOMContentLoaded', function() {
         messageDiv.classList.add(`${data.language}`)
         if (data.language != preferredLanguage) {
             messageDiv.classList.add("hidden");
+        }
+        if (data.user == currentUsername) {
+            messageDiv.classList.add("author-self");
+        } else {
+            messageDiv.classList.add("author-other");
         }
         const p1 = document.createElement('p');
         const p2 = document.createElement('p');
@@ -339,6 +373,12 @@ document.addEventListener('DOMContentLoaded', function() {
         let thisMeetingName = document.querySelector("#this-meeting-name");
         inviteCode.innerHTML= info.roomcode;
         thisMeetingName.innerHTML= info.name;
+    }
+
+    function makeMessagesWindowScrollDown() {
+        //make messages screen auto scroll to bottom
+        let messagesWindow = document.querySelector("#messages-window");
+        messagesWindow.scrollTop = messagesWindow.scrollHeight;    
     }
 
     async function unsubscribe(meetingCode) {

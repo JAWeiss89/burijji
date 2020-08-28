@@ -10,8 +10,8 @@
 }
 
 body {
-    color: rgb(39, 39, 39);
-    background-color: #c5c5c5;
+    color: rgb(66, 66, 66);
+    background-color: #f1f1f1;
     font-family: 'Lato', sans-serif;
     position: relative;
 }
@@ -48,16 +48,20 @@ li {
 }
 
 #main-section {
-    width: 95%;
-    margin: auto;
+    /* width: 95%;
+    margin: auto; */
 }
 
-.hidden {
+/* .hidden {
     display: none;
-}
+} */
 
 section {
     background-color: #fff;
+}
+
+button {
+    cursor: pointer;
 }
 
 /* ===========================
@@ -71,8 +75,6 @@ section {
  justify-content: space-between;
  align-items: center;
  margin: 0 0 20px;
- background-color: #35578a;
- color: #fff;
  font-weight: 100;
 }
 
@@ -82,6 +84,7 @@ section {
 
 .navbar-links {
     text-align: right;
+    font-weight:400;
 }
 
 .navbar-links a {
@@ -113,8 +116,6 @@ section {
 #middle {
     width: 60%;
     height: 100%;
-    border-top: 1px solid;
-    border-bottom: 1px solid;
 }
 
 #right {
@@ -128,14 +129,15 @@ section {
 
 =========================== */
 #my-rooms {
-    border: 1px solid black;
     height: 70%
 }
 
 #my-rooms li {
-    padding-left: 10px;
-    margin: 3px 0 3px;
+    padding: 10px 0 7px 7px;
+    /* margin: 3px 0 3px; */
     font-weight: 100;
+    cursor: pointer;
+    border-bottom: 1px solid #c1c1c1;
 }
 
 #my-rooms i {
@@ -143,7 +145,7 @@ section {
 }
 
 .selected {
-    background-color: #8bb7f9;
+    background-color: #cae7ea;
 }
 
 /* ===========================
@@ -153,8 +155,6 @@ section {
 =========================== */
 
 #new-chatroom {
-    border: 1px solid black;
-    border-top: 0;
     padding: 0 10px 10px 10px;
     height: 30%;
     display: flex;
@@ -216,8 +216,8 @@ section {
     width: 25px;
     height: 25px;
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    bottom: 15px;
+    right: 5px;
 }
 
 /* ===========================
@@ -227,13 +227,13 @@ section {
 =========================== */
 
 #messenger {
+    border: 1px solid #c1c1c1;
     height: 100%;
 }
 
 #messages-window {
     padding: 10px;
     height: 93%;
-    background-color:#ececec;
     overflow-y:auto;
 }
 
@@ -247,21 +247,48 @@ section {
 }
 
 .date-span {
-    color: #929292;
+    color: #bdbaba;
     font-size: .6em;
 }
 
 .name-span {
-    color: #556aff;
+    color: #8392ff;
     font-size: .8em;
 }
 
 .message-header {
     margin: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .user-message {
-    margin: 0 0 10px 5px;
+    margin: 0 0 10px;
+    padding: 5px;
+    font-size: .9em;
+}
+
+.author-self {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: end;
+}
+
+.author-self .user-message {
+    background-color: #dadada;
+    border-radius: 7px 0 7px 7px;
+}
+
+.author-other {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.author-other .user-message {
+    background-color: #d6ebec;
+    border-radius: 0 7px 7px 7px;
 }
 
 #input-form {
@@ -272,6 +299,7 @@ section {
 
 input {
     border-radius: 0%;
+    background-color: #ececec;
 }
 
 #user-message {
@@ -297,8 +325,7 @@ input {
 =========================== */
 
 #about-user {
-    border: 1px solid black;
-    height: 30%;
+    height: 25%;
     position: relative;
 }
 
@@ -306,18 +333,7 @@ input {
     padding-left: 10px;
 }
 
-/* #leave-chat {
-    display: flex;
-    justify-content: center;
-} */
-
-/* #leave-chat-form button{
-    margin-top: 10px;
-    background-color: #e8bdbd;
-} */
-
 #about-user form {
-    margin-top: 30px;
     width: 100%;
 }
 
@@ -335,6 +351,7 @@ input {
 }
 
 .settings {
+    cursor: pointer;
     position: absolute;
     margin: 0;
     bottom: 10px;
@@ -371,9 +388,9 @@ input {
     ABOUT-MEETING STYLING 
 
 =========================== */
+
 #about-meeting {
-    border: 1px solid black;
-    height: 70%;
+    height: 75%;
 }
 
 #about-meeting * {
@@ -384,6 +401,16 @@ input {
     padding-left: 10px;
 }
 
+.no-meeting-info {
+    width: 100%;
+    height: 100%;
+    background-color: #f1f1f1;
+}
+
+.meeting-info {
+    border-top: 1px solid #c1c1c1;
+}
+
 #this-meeting-name {
     font-size: 1.2em;
     font-weight: 700;
@@ -392,8 +419,6 @@ input {
 #meeting-members li {
     margin-left: 20px;
 }
-
-
 
 #unsubscribe {
     margin: 20px auto;
@@ -406,4 +431,14 @@ input {
 
 #unsubscribe:hover {
     background-color: #e8bdbd;
+}
+
+/* ===========================
+
+    HIGH PRIORITY (KEEP AT END) 
+
+=========================== */
+
+.hidden {
+    display: none;
 }
