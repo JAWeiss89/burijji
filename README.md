@@ -13,3 +13,6 @@ A user is able to send and receive messages in their desired language and any pe
 
 <a><img src="https://ne-xo.herokuapp.com/static/desktop-view.png" width="65%"></a>
 <a><img src="https://ne-xo.herokuapp.com/static/mobile-view-pt.png" width="30%"></a>
+
+## Live App link
+https://ne-xo.herokuapp.com/
