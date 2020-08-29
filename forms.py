@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
+from wtforms import StringField, PasswordField, SelectField
 from wtforms.validators import InputRequired
 
 class RegisterForm(FlaskForm):
@@ -10,7 +10,7 @@ class RegisterForm(FlaskForm):
     username = StringField("Username:", validators=[InputRequired(message="This field cannot be left blank")])
     password = PasswordField("Password:", validators=[InputRequired(message="This field cannot be left blank")])
     email = StringField("Email:", validators=[InputRequired(message="This field cannot be left blank")])
-    preferred_language = StringField("Preferred Language:")
+    preferred_language = SelectField("Preferred Language:", choices=[('english', 'English'), ('spanish', 'Español'), ('portuguese', 'Português')])
 
 
 class LoginForm(FlaskForm):

@@ -303,6 +303,34 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
     // ==================================================
+    // GIVE MOBILE NAV EVENT LISTENERS
+    // ==================================================
+    let leftToggle = document.querySelector("#left-toggle");
+    let middleToggle = document.querySelector("#middle-toggle");
+    let rightToggle = document.querySelector("#right-toggle");
+    let leftSection = document.querySelector("#left");
+    let middleSection = document.querySelector("#middle");
+    let rightSection = document.querySelector("#right");
+    
+    leftToggle.addEventListener("click", function() {
+        leftSection.style.display="block";
+        middleSection.style.display="none";
+        rightSection.style.display="none";
+    })
+
+    middleToggle.addEventListener("click", function() {
+        leftSection.style.display="none";
+        middleSection.style.display="block";
+        rightSection.style.display="none";
+    })
+
+    rightToggle.addEventListener("click", function() {
+        leftSection.style.display="none";
+        middleSection.style.display="none";
+        rightSection.style.display="block";
+    })
+
+    // ==================================================
     //  HELPER FUNCTIONS
     // ==================================================
 
@@ -334,7 +362,7 @@ document.addEventListener('DOMContentLoaded', function() {
         messageDiv.append(p2);
 
         document.querySelector('#messages-window').append(messageDiv);
-
+        makeMessagesWindowScrollDown();
     }
 
     function post_gen_msg(data) {
@@ -342,6 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
         p.classList.add('gen-message')
         p.innerHTML = `${data.msg}`;
         document.querySelector('#messages-window').append(p);
+        makeMessagesWindowScrollDown();
     }
 
     function clearMessages() {

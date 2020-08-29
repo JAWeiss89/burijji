@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ne-xo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Libre+Caslon+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&family=Libre+Caslon+Display&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/app.css">
+    <link rel="stylesheet" href="../static/app2.css">
     <link rel="shortcut icon" href="/static/favicon.ico">
 </head>
 <body>
 
-    <div class="navbar">
+    <!-- <div class="navbar">
         <div class="navbar-logo">
             <a href="/"><h1>ne-xo <i class="far fa-comments"></i></h1></a>
         </div>
@@ -24,14 +25,9 @@
             {% endif %}
         </div>
 
-    </div>
+    </div> -->
 
     <div id="main-section">
-        <!-- Flash Messages -->
-        {% for msg in get_flashed_messages() %}
-        <div class="alert alert-danger">{{ msg }}</div>
-        {% endfor %}  
-
 
         {% block content %}
         <!-- Content from the other pages will go here -->

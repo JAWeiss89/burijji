@@ -18,7 +18,7 @@ body {
 
 h1 {
     margin: 0;
-    font-weight: 200;
+    font-weight: 400;
 }
 
 a {
@@ -28,10 +28,6 @@ a {
 
 p {
     margin: 10px 0 10px;
-}
-
-h2 {
-    margin-bottom: 75px;
 }
 
 h4 {
@@ -47,15 +43,6 @@ li {
     list-style: none;
 }
 
-#main-section {
-    /* width: 95%;
-    margin: auto; */
-}
-
-/* .hidden {
-    display: none;
-} */
-
 section {
     background-color: #fff;
 }
@@ -64,6 +51,15 @@ button {
     cursor: pointer;
 }
 
+.alert {
+    height: 30px;
+    background-color: #efc77e;
+    color: #fff;
+    text-align: center;
+    padding-top: 4px;
+}
+
+
 /* ===========================
 
     NAVBAR STYLING 
@@ -71,11 +67,11 @@ button {
 =========================== */
 
 .navbar {
- display: flex;
- justify-content: space-between;
- align-items: center;
- margin: 0 0 20px;
- font-weight: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 20px;
+    font-weight: 100;
 }
 
 .navbar-logo {
@@ -88,7 +84,7 @@ button {
 }
 
 .navbar-links a {
-    margin-right: 10px;
+    margin-right: 20px;
 }
 
 /* ===========================
@@ -129,7 +125,8 @@ button {
 
 =========================== */
 #my-rooms {
-    height: 70%
+    height: 70%;
+    overflow-y: auto;
 }
 
 #my-rooms li {
@@ -329,6 +326,10 @@ input {
     position: relative;
 }
 
+.fa-user {
+    margin-left: 5px;
+}
+
 #about-user p {
     padding-left: 10px;
 }
@@ -359,10 +360,15 @@ input {
 }
 
 .flag {
-    text-align: center;
-    font-size: 2em;
     padding-right: 10px;
+    text-align: center;
 }
+
+.flag img {
+    height: 40px;
+    border-radius: 100%;
+}
+
 
 #change-language {
     padding: 5px;
@@ -441,4 +447,34 @@ input {
 
 .hidden {
     display: none;
+}
+
+
+/* ===========================
+
+    MOBILE NAV STYLING 
+
+=========================== */
+@media only screen and (max-width: 700px) {
+
+    #section-toggle {
+      display: flex;
+      justify-content: space-evenly;
+      font-size: 1.5em;
+    }
+
+    #left {
+        width: 100%;
+        display: none;
+    }
+
+    #right {
+        width: 100%;
+        display: none;
+    }
+
+    #middle {
+        width: 100%;
+    }
+
 }

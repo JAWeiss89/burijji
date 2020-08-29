@@ -1,6 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="navbar">
+    <div class="navbar-logo">
+        <a href="/"><h1>ne-xo</h1></a>
+    </div>
+    <div class="navbar-links">
+        {% if session["user_id"] %}
+        <a href="/logout">logout @{{user.username}}</a>
+        {% else %}
+        <a href="/login">login</a>
+        <a href="/register">sign up</a>
+        {% endif %}
+    </div>
+
+</div>
+
+<div id="section-toggle" class="hidden">
+    <div id="left-toggle"><i class="fas fa-user-friends"></i></div>
+    <div id="middle-toggle"><i class="fas fa-comments"></i></div>
+    <div id="right-toggle"><i class="fas fa-user"></i></div>
+</div>
+
 <div id="meeting-room-container">
 
 
@@ -82,11 +103,11 @@
                 <p>Preferred Language:</p>
                 <p class="my-language hidden">{{user.preferred_language}}</p>
                 {% if user.preferred_language=="english" %}
-                <p class="flag">🇬🇧</p>
+                <p class="flag"><img src="../static/uk.png" alt="English"></p>
                 {% elif user.preferred_language=="spanish" %}
-                <p class="flag">🇪🇸</p>
+                <p class="flag"><img src="../static/spain.png" alt="Español"></p>
                 {% elif user.preferred_language=="portuguese" %}
-                <p class="flag">🇵🇹</p>
+                <p class="flag"><img src="../static/portugal.png" alt="Português"></p>
                 {% endif %}
                 <p class="my-user-id hidden">{{user.id}}</p>
                 <p class="settings"><i class="fas fa-cog"></i></p>

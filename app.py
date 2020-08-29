@@ -55,7 +55,7 @@ def handle_user_login():
         
         else :
             flash("Could not authenticate")
-            return redirect("/")
+            return redirect("/login")
 
     return render_template('login.html', form=form)
 
@@ -282,7 +282,7 @@ def join(data):
 
     # Make user a member of this chatroom if not already member
     
-    if found_room not in user.chatrooms and found_room.id not in [1,2,3,4]:
+    if found_room not in user.chatrooms and found_room.id not in [1]:
         new_membership = Membership(user_id=user.id, chatroom_id=found_room.id, is_admin=True)
 
         db.session.add(new_membership)

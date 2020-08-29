@@ -1,21 +1,59 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="navbar-landing">
+    <div class="navbar-logo-landing">
+        <a href="/"><h1>ne-xo</h1></a>
+    </div>
+    <div class="navbar-links-landing">
+        {% if session["user_id"] %}
+        <a href="/logout">Logout @{{user.username}}</a>
+        {% else %}
+        <a href="/login">login</a>
+        <a href="/register">sign up</a>
+        {% endif %}
+    </div>
+</div>
 
+<header>
+    <div class="welcomes">
+        <h3 id="welcome-english">Welcome.</h3>
+        <h3 id="welcome-spanish">Bienvenido.</h3>
+        <h3 id="welcome-portuguese">Bem vindo.</h3>
+    </div>
+    <div class="header-text">
+        <p id="header-paragraph">ne-xo seeks to break barriers and bridge communication between speakers of different languages.</p>
+        <button id="header-signup-btn">Sign Up</button>
+    </div>
+</header>
 
-        <div id="greeting-window">
-            <h2>Welcome. </h2>
-            <h4>ne-xo seeks to break down barriers and bridge communication between speakers of different languages.</h4>
+<section class="showroom-1">
+    <div class="desktop-view">
+        <img src="../static/desktop-view.png" id="desktop-pic">
+    </div>
+    <div class="how-it-works-1">
+        <p id="three-languages">English, Español, o Português</p>
+        <p>With ne-xo, simply send and receive all messages in your language.</p>
+    </div>
 
+</section>
 
-            <!-- <h4>What is your name?</h4>
-            <form id="name-form"  method="POST" autocomplete="off">
-                <input type="text" name="name" id="name">
-                <button><i class="fas fa-arrow-right"></i></button>
-            </form> -->
-        </div>
-        
-        <!-- <p><a href="/login">Login!</a></p>
-        <p><a href="/register">Register!</a></p> -->
+<section class="showroom-2">
+    <p id="showroom-2-text">The others will do the same.</p>
+    <div class="mobile-view">
+        <img src="../static/mobile-view-pt.png" id="mobile-pic-portuguese">
+        <img src="../static/mobile-view-en.png" id="mobile-pic-spanish">
+
+    </div>
+
+</section>
+
+<section class="tech-used">
+    <div class="tech-used-content">
+        <img src="../static/cloud-translation.png" id="google-api-pic">
+        <p>Built using Google's powerful cloud translation technology, you can be confident in the translation of your messages.</p>
+    </div>
+
+</section>
 
 {% endblock %}

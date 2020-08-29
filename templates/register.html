@@ -1,27 +1,47 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="navbar">
+  <div class="navbar-logo">
+      <a href="/"><h1>ne-xo</h1></a>
+  </div>
+  <div class="navbar-links">
+      {% if session["user_id"] %}
+      <a href="/logout">Logout @{{user.username}}</a>
+      {% else %}
+      <a href="/login">login</a>
+      <a href="/register">sign up</a>
+      {% endif %}
+  </div>
 
-        <div class="user-form-window">
-            <h2>Register Here!</h2>
-            <form method="POST">
+</div>
 
-                {{ form.hidden_tag() }}
-            
-                {% for field in form
-                if field.widget.input_type != 'hidden' %}
-                <p>
-                  {{ field.label }}
-                  {{ field }}
-              
-                  {% for error in field.errors %}
-                  {{ error }}
-                  {% endfor %}
-                </p>
-                {% endfor %}
-              
-                <button type="submit">Register!</button>
-            
-            </form>
+<!-- Flash Messages -->
+{% for msg in get_flashed_messages() %}
+<div class="alert alert-danger">{{ msg }}</div>
+{% endfor %}  
+
+<div class="user-form-window">
+    
+    <form method="POST">
+      <h2>sign up.</h2>
+        {{ form.hidden_tag() }}
+    
+        {% for field in form
+        if field.widget.input_type != 'hidden' %}
+        <p>
+          {{ field.label }}
+          {{ field }}
+      
+          {% for error in field.errors %}
+          {{ error }}
+          {% endfor %}
+        </p>
+        {% endfor %}
+        <div class="submit-button-holder">
+        <button type="submit">Register!</button>
         </div>
+    
+    </form>
+</div>
  {% endblock %}
